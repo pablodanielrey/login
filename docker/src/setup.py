@@ -28,12 +28,15 @@ setup(name='login',
           packages=find_packages(exclude=['contrib', 'docs', 'test*']),
           install_requires=['psycopg2>=2.7.1',
                             'dateutils>=0.6.6',
-                            'Flask'],
+                            'Flask',
+                            'itsdangerous',
+                            'requests',
+                            'redis'],
           entry_points={
             'console_scripts': [
                 'wamp=login.api.wamp.main:main',
-                'rest=login.api.rest.main:main'
-            ]
+                'rest=login.api.rest.main:main',
+                'flask=login.web.main:main']
           }
 
       )

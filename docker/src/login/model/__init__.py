@@ -1,6 +1,7 @@
 
-from login.model.LoginModel import LoginModel
+from login.model.LoginModel import LoginModel, InvalidTokenException
 
 __all__ = [
-    'LoginModel'
+    'LoginModel',
+    'InvalidTokenException'
 ]
