@@ -18,8 +18,7 @@ class LoginModel:
 
     @classmethod
     def login(cls, username, password):
-        logging.debug('login {} {}'.format(username, password))
-        token = cls.SERIALIZER.dumps(username)
+        token = cls.SERIALIZER.dumps(username + cls.KEY)
         cls.REDIS.set(token, username)
         return token
 
@@ -32,7 +31,8 @@ class LoginModel:
         logging.debug('checkToken : {}'.format(token))
         if not token:
             raise InvalidTokenException()
-        if not cls.REDIS.get(token):
+        user = cls.REDIS.get(token)
+        if not user:
             raise InvalidTokenException
         return True
 
@@ -52,6 +52,6 @@ class LoginModel:
         url = cls.REDIS.get(token)
         if not url:
             raise InvalidTokenException()
-        cls.REDIS.delete(token)
+        #cls.REDIS.delete(token)
         logging.debug('checkRedirectionToken url : {}'.format(url))
         return url

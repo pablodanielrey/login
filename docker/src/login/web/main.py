@@ -8,12 +8,15 @@ from login.model import LoginModel
 #app = Flask(__name__, static_url_path='/src/login/web/angular')
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-httpAuthProvider = HttpAuthProvider(os.environ['LOGIN_DEFAULT_SITE'])
+httpAuthProvider = HttpAuthProvider(
+                        os.environ['LOGIN_DEFAULT_SITE'],
+                        os.environ['LOGIN_COOKIES_DOMAIN'])
 
 @app.route('/logout', methods=['GET','POST'])
 def logout():
-    LoginModel.logout(httpAuthProvider.getTokenCookie(request))
-    resp = make_response(redirect('/', code=302))
+    token = httpAuthProvider.getTokenCookie(request)
+    LoginModel.logout(token)
+    resp = httpAuthProvider.redirect_with_template('/')
     httpAuthProvider.removeTokenCookie(resp)
     return resp
 
@@ -43,7 +46,7 @@ def login():
     app.logger.info('testeando usuario y clave')
     token = LoginModel.login(username, password)
     app.logger.info('token auth generado : {}'.format(token))
-    response = httpAuthProvider.redirect_to_site(request)
+    response = httpAuthProvider.redirect_to_site_with_template(request)
     httpAuthProvider.setTokenCookie(response, token)
     return response
 

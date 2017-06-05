@@ -44,7 +44,7 @@ class HttpAuthClient(HttpAuth):
             except Exception as e:
                 rtoken = self._getRedirectionToken(request.url)
                 if not rtoken:
-                    response = make_response("", code=401)
+                    response = make_response("No se pudo obtener el token de redirect", code=401)
                     return response
                 url = '{}?{}={}'.format(self.login_url, self.RTOKEN, rtoken)
                 response = make_response(redirect(url, code=302))
