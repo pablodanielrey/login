@@ -18,7 +18,8 @@ class LoginModel:
 
     @classmethod
     def login(cls, username, password):
-        token = cls.SERIALIZER.dumps(username + cls.KEY)
+        #token = cls.SERIALIZER.dumps(username + cls.KEY)
+        token = str(uuid.uuid4())
         cls.REDIS.set(token, username)
         return token
 
@@ -39,7 +40,8 @@ class LoginModel:
     @classmethod
     def registerRedirection(cls, url):
         logging.debug('registerRedirection : {}'.format(url))
-        token = cls.SERIALIZER.dumps(str(uuid.uuid4()))
+        #token = cls.SERIALIZER.dumps(str(uuid.uuid4()))
+        token = str(uuid.uuid4())
         cls.REDIS.set(token, url, ex='60')
         logging.debug('registerRedirection token {}'.format(token))
         return token
@@ -54,4 +56,4 @@ class LoginModel:
             raise InvalidTokenException()
         #cls.REDIS.delete(token)
         logging.debug('checkRedirectionToken url : {}'.format(url))
-        return url
+        return url.decode()

@@ -1,6 +1,7 @@
 """
     Este código es usado por el provider de autentificación, por lo que es seguro acceder al modelo
 """
+import logging
 from functools import wraps
 from flask import request, make_response, redirect, render_template
 
@@ -29,14 +30,18 @@ class HttpAuthProvider(HttpAuth):
     def redirect_with_template(self, url):
         return make_response(render_template('redirect.html', url=url))
 
-    def redirect_to_site_with_template(self, red):
+    def redirect_to_site_with_template(self, req):
         """ redirecciona al sitio correcto definido por el redirection_token registrado por un cliente usando la api rest (HttpAuthClient.require_login) """
         try:
+            logging.info('obteniendo token de redirección : ' + self.RTOKEN)
             rtoken = req.args.get(self.RTOKEN)
+            logging.info('token obtenido ' + rtoken)
             url = LoginModel.checkRedirectionToken(rtoken)
+            logging.info('url obtenida ' + url)
             return self.redirect_with_template(url)
 
         except Exception as e:
+            logging.exception(e)
             return self.redirect_with_template(self.default_site)
 
 

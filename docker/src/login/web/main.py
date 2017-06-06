@@ -12,6 +12,10 @@ httpAuthProvider = HttpAuthProvider(
                         os.environ['LOGIN_DEFAULT_SITE'],
                         os.environ['LOGIN_COOKIES_DOMAIN'])
 
+@app.route('/favicon.ico', methods=['GET','POST'])
+def favicon():
+    return send_from_directory(app.static_url_path, 'favicon.ico')
+
 @app.route('/logout', methods=['GET','POST'])
 def logout():
     token = httpAuthProvider.getTokenCookie(request)
