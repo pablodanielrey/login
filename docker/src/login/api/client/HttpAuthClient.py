@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request, make_response, redirect
 
 from login import InvalidTokenException
-from login.api.http.HttpAuth import HttpAuth
+from login.api import HttpAuth
 
 class HttpAuthClient(HttpAuth):
 

@@ -1,5 +1,5 @@
 from flask import Flask
-from login.api.rest import login
+from login.api.server.rest import login
 
 def main():
     app = Flask(__name__)

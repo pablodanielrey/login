@@ -17,8 +17,9 @@ class LoginModel:
                     db=os.environ['LOGIN_REDIS_DB'])
 
     @classmethod
-    def login(cls, username, password):
-        #token = cls.SERIALIZER.dumps(username + cls.KEY)
+    def login(cls, s, username, password):
+        if s.query(UsernamePassword).filter(username=username, password=password).count() <= 0:
+            return None
         token = str(uuid.uuid4())
         cls.REDIS.set(token, username)
         return token

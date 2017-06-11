@@ -1,12 +1,9 @@
-"""
-    Este código es usado por el provider de autentificación, por lo que es seguro acceder al modelo
-"""
 import logging
 from functools import wraps
 from flask import request, make_response, redirect, render_template
 
 from login.model import LoginModel
-from login.api.http.HttpAuth import HttpAuth
+from login.api import HttpAuth
 
 class HttpAuthProvider(HttpAuth):
 

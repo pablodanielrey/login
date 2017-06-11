@@ -1,7 +1,7 @@
 import os
 from functools import wraps
 from flask import Flask, request, render_template, make_response, redirect, send_from_directory
-from login.api.http import HttpAuthProvider
+from login.api.server import HttpAuthProvider
 from login.model import LoginModel
 
 # set the project root directory as the static folder, you can set others.
@@ -12,9 +12,11 @@ httpAuthProvider = HttpAuthProvider(
                         os.environ['LOGIN_DEFAULT_SITE'],
                         os.environ['LOGIN_COOKIES_DOMAIN'])
 
-@app.route('/favicon.ico', methods=['GET','POST'])
+''' ícono para no generar problemas de autenticación '''
+@app.route('/favicon.ico', methods=['GET'])
 def favicon():
     return send_from_directory(app.static_url_path, 'favicon.ico')
+
 
 @app.route('/logout', methods=['GET','POST'])
 def logout():

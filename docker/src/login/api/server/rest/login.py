@@ -1,6 +1,7 @@
 import logging
 from flask import jsonify, url_for, request, abort
 
+from login.api.server import Session
 from login.model import LoginModel
 
 
@@ -70,7 +71,8 @@ def registerApi(app):
         try:
             username = request.json.get('username')
             password = request.json.get('password')
-            sid = LoginModel.login(username, password)
+            s = Session()
+            sid = LoginModel.login(s, username, password)
             return jsonify({'sid':sid}), 201
 
         except Exception as e:

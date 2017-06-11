@@ -20,9 +20,9 @@ COPY supervisor/srest.conf /etc/supervisor/conf.d
 COPY supervisor/sflask.conf /etc/supervisor/conf.d
 #COPY supervisor/swamp.conf /etc/supervisor/conf.d
 
-#COPY src /src
+COPY src /src
 WORKDIR /src
-#RUN pip3 install -e .
+RUN pip3 install -e .
 
 #VOLUME /src
 
